@@ -1,0 +1,86 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background: #050505;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: min(92vw, 520px);
+  text-align: center;
+}
+
+h1 {
+  color: #ff6a00;
+  font-size: clamp(38px, 11vw, 64px);
+  font-weight: 900;
+  letter-spacing: 4px;
+  margin-bottom: 28px;
+  text-shadow:
+    0 0 5px #ff6a00,
+    0 0 15px #ff6a00;
+}
+
+.section {
+  border: 3px solid #ff1616;
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow:
+    0 0 8px #ff1616,
+    inset 0 0 8px rgba(255, 22, 22, 0.25);
+}
+
+.title {
+  color: #ff3030;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+  text-shadow: 0 0 8px #ff1616;
+}
+
+.numbers {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 9px;
+}
+
+.number {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 3px solid #ff1616;
+  background: #080808;
+  color: white;
+  font-size: 22px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 0 5px #ff1616;
+}
+
+.number:hover,
+.number.active {
+  background: #ff1616;
+  color: white;
+  box-shadow:
+    0 0 10px #ff1616,
+    0 0 25px #ff1616;
+  transform: scale(1.06);
+}
+
+.dice-area {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+}
+
+.dice-circle {
