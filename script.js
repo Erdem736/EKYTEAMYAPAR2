@@ -6,12 +6,12 @@ let selectedNumber = 1;
 let rolling = false;
 
 const colors = [
-  "#ff0000", // KIRMIZI
-  "#ff6600", // TURUNCU
-  "#ffff00", // SARI
-  "#00ff00", // YEŞİL
-  "#008cff", // MAVİ
-  "#a000ff"  // MOR
+  "#ff0000", // RED
+  "#ff6600", // ORANGE
+  "#ffff00", // YELLOW
+  "#00ff00", // GREEN
+  "#008cff", // BLUE
+  "#a000ff"  // PURPLE
 ];
 
 function createDots(count) {
@@ -20,9 +20,13 @@ function createDots(count) {
 
   for (let i = 0; i < count; i++) {
     const dot = document.createElement("div");
+
     dot.className = "die-dot";
-    dot.style.background = "#111";
-    dot.style.color = "#fff";
+
+    // Başlangıçta kırmızı neon
+    dot.style.color = "#ff1515";
+    dot.style.background = "#000";
+
     diceCircle.appendChild(dot);
   }
 }
@@ -31,75 +35,128 @@ function randomColor() {
   return colors[Math.floor(Math.random() * colors.length)];
 }
 
+/* GERÇEK TIK SESİ */
 function playClick() {
-  const audioContext =
-    new (window.AudioContext || window.webkitAudioContext)();
+  const AudioContext =
+    window.AudioContext || window.webkitAudioContext;
 
-  const oscillator = audioContext.createOscillator();
-  const gain = audioContext.createGain();
+  if (!AudioContext) return;
+
+  const audio = new AudioContext();
+
+  const oscillator = audio.createOscillator();
+  const gain = audio.createGain();
 
   oscillator.type = "square";
-  oscillator.frequency.setValueAtTime(900, audioContext.currentTime);
+  oscillator.frequency.setValueAtTime(
+    850,
+    audio.currentTime
+  );
 
-  gain.gain.setValueAtTime(0.12, audioContext.currentTime);
+  gain.gain.setValueAtTime(
+    0.18,
+    audio.currentTime
+  );
+
   gain.gain.exponentialRampToValueAtTime(
     0.001,
-    audioContext.currentTime + 0.07
+    audio.currentTime + 0.06
   );
 
   oscillator.connect(gain);
-  gain.connect(audioContext.destination);
+  gain.connect(audio.destination);
 
   oscillator.start();
-  oscillator.stop(audioContext.currentTime + 0.07);
+  oscillator.stop(audio.currentTime + 0.06);
 }
 
-numbers.forEach((button) => {
+/* 1 - 6 SEÇİMİ */
+
+numbers.forEach(button => {
+
   button.addEventListener("click", () => {
+
     if (rolling) return;
 
-    numbers.forEach((btn) => btn.classList.remove("active"));
+    numbers.forEach(btn => {
+      btn.classList.remove("active");
+    });
+
     button.classList.add("active");
 
-    selectedNumber = Number(button.dataset.number);
+    selectedNumber =
+      Number(button.dataset.number);
+
     createDots(selectedNumber);
   });
+
 });
 
+/* ROLL */
+
 rollButton.addEventListener("click", () => {
+
   if (rolling) return;
 
   rolling = true;
+
   playClick();
 
-  const dots = document.querySelectorAll(".die-dot");
+  const dots =
+    document.querySelectorAll(".die-dot");
 
   diceCircle.classList.add("rolling");
 
-  dots.forEach((dot) => {
+  dots.forEach(dot => {
     dot.classList.add("rolling");
   });
 
-  // Hızlı rastgele renk değişimleri
-  const interval = setInterval(() => {
-    dots.forEach((dot) => {
-      dot.style.background = randomColor();
-      dot.style.color = dot.style.background;
-    });
-  }, 80);
+  /*
+    Dönüş sırasında sürekli
+    rastgele renk değiştirir.
+  */
 
-  // Sonucu belirle
-  setTimeout(() => {
-    clearInterval(interval);
+  const randomizer = setInterval(() => {
 
-    dots.forEach((dot) => {
+    dots.forEach(dot => {
+
       const color = randomColor();
 
-      dot.style.background = color;
       dot.style.color = color;
+      dot.style.background = color;
+
+    });
+
+  }, 70);
+
+  /*
+    Sonuç
+  */
+
+  setTimeout(() => {
+
+    clearInterval(randomizer);
+
+    dots.forEach(dot => {
+
+      const finalColor = randomColor();
+
+      dot.style.color = finalColor;
+      dot.style.background = finalColor;
+
       dot.classList.remove("rolling");
+
     });
 
     diceCircle.classList.remove("rolling");
+
     rolling = false;
-  }, 750);
+
+  }, 850);
+
+});
+
+
+/* SAYFA AÇILINCA 1 TANE YUVARLAK */
+
+createDots(1);
