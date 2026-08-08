@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,12 +9,12 @@
 
 <body>
 
-  <div class="container">
+  <main class="container">
 
     <h1>EKY DICE</h1>
 
-    <div class="section">
-      <div class="title">SELECT NUMBER</div>
+    <section class="number-box">
+      <div class="section-title">SELECT NUMBER</div>
 
       <div class="numbers">
         <button class="number active" data-number="1">1</button>
@@ -24,15 +24,13 @@
         <button class="number" data-number="5">5</button>
         <button class="number" data-number="6">6</button>
       </div>
-    </div>
-
-    <div class="dice-area">
-      <div id="diceCircle" class="dice-circle"></div>
-    </div>
+    </section>
 
     <button id="rollButton" class="roll-button">ROLL</button>
 
-  </div>
+    <div class="dice-circle" id="diceCircle"></div>
+
+  </main>
 
   <script src="script.js"></script>
 </body>
